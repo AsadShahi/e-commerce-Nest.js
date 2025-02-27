@@ -1,6 +1,8 @@
 enum UserRole{
     USER='user',
-    ADMIN='admin'
+    ADMIN='admin',
+    SELLER='seller',
+    CUSTOMER='customer'
 }
 
 export default UserRole

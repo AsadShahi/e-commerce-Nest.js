@@ -1,23 +1,26 @@
-import { IsNotEmpty, IsString, Length, MaxLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, Length, MaxLength, Min, MinLength } from "class-validator";
 import UserRole from "src/users/enums/RoleEnums";
 
 export class RegisterDto{
 
-    @IsNotEmpty({message:'the phoen number should not empty'})
-    @Length(10,10,{message:'the mobile should equal to ten numbers'})
-    // @Transform(({value})=>value.trime())
-    mobile:number
 
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty({message:'شماره تلفن نباید خالی باشد'})
+    // @MinLength(10,{message:'شماره تلفن حداقل ده عدد و حد اکثر 12 عدد باشد'})
+
+    // @MaxLength(10,{message:'شماره تلفن حداقل ده عدد و حد اکثر 12 عدد باشد'})
+    mobile?: any;
     
+
     @IsString({message:'it should a string'})
     @IsNotEmpty({message:'it should not empty'})
-    display_name:string
+    name:string
 
     @IsNotEmpty()
     @MaxLength(12)
     password:string
      
-    
     role:UserRole
 
 }

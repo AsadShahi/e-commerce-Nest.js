@@ -21,13 +21,15 @@ export class UsersService {
     // Await the result to ensure it returns the user (if exists)
     const isExistUser = await this.findByMobile(createUserDto.mobile);
 
+    
     if (isExistUser) {
-      throw new BadRequestException('This number already exists');
+      throw new BadRequestException('این شماره تلفن قبلا در سیستم موجود است. ');
     }
 
-
-    const user = this.userRepository.create(createUserDto)
-
+    
+    const user = this.userRepository.create({...createUserDto})
+    
+    
     return await this.userRepository.save(user)
   }
 
@@ -43,6 +45,10 @@ export class UsersService {
     return user;
   }
 
+  // async findByRole(mobile: number): Promise<User | undefined> {
+  //   // Assuming you are querying the database to check if the mobile exists
+  //   return await this.userRepository.findOne({ where: { mobile } });
+  // }
 
 
   async findByMobile(mobile: number): Promise<User | undefined> {
@@ -51,8 +57,12 @@ export class UsersService {
   }
 
   
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+
+    console.log(id,'==',updateUserDto)
+    const user= await this.userRepository.update(id,{...updateUserDto})
+
+    return user
   }
 
   remove(id: number) {

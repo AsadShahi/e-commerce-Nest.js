@@ -3,6 +3,7 @@ import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { Response } from 'express';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller('address')
 export class AddressController {
@@ -25,6 +26,9 @@ export class AddressController {
 
 
   @Get()
+  @ApiOperation({summary:"get all address"})
+  @ApiResponse({status:200, description:"return all address"})
+  
  async findAll(@Res() res: Response) {
 
     const allAdress =await this.addressService.findAll();

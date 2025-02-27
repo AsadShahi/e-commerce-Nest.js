@@ -1,17 +1,18 @@
 import { Transform } from "class-transformer";
-import { IsEnum, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsEnum, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
 import UserRole from "../enums/RoleEnums";
 
 export class CreateUserDto {
 
-    @IsNotEmpty({message:'the phoen number should not empty'})
-    @Length(10,10,{message:'the mobile should equal to ten numbers'})
-    // @Transform(({value})=>value.trime())
-    mobile:number
+    @IsOptional()
+    // @IsNotEmpty({message:'the phoen number should not empty'})
+    // @Length(10,10,{message:'the mobile should equal to ten numbers'})
+    // // @Transform(({value})=>value.trime())
+    mobile?:any
 
-    @IsString({message:'display_name should a string'})
-    @IsNotEmpty({message:'display_name should not empty'})
-    display_name:string
+    @IsString({message:'name should a string'})
+    @IsNotEmpty({message:'name should not empty'})
+    name:string
 
 
     @IsNotEmpty()

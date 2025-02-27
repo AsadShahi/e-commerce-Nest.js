@@ -5,6 +5,7 @@ import { LoginDto } from "./dto/login.dto";
 import { Response } from "express";
 import { HttpStatus } from "@nestjs/common";
 @Controller('auth')
+
 export class AuthController {
 
 
@@ -13,13 +14,13 @@ export class AuthController {
 
     @Post('register')
 
-    async register(@Body() registedDto: RegisterDto, @Res() res: Response) {
+    async register(@Body() registerdDto: RegisterDto, @Res() res: Response) {
 
-       
-        const register = await this.authService.register(registedDto.display_name,registedDto.mobile,  registedDto.password, registedDto.role)
 
-        res.status(HttpStatus.OK).json({
-            status: HttpStatus.OK,
+        const register = await this.authService.register(registerdDto.name,registerdDto.mobile,  registerdDto.password, registerdDto.role)
+
+        res.status(201).json({
+            status: 201,
             data: register,
             message: 'User created successfully',
         });
@@ -33,8 +34,10 @@ export class AuthController {
     @Post('login')
 
     async login(@Body() loginDto: LoginDto ,@Res() res:Response) {
-        
-       const login= await this.authService.login(loginDto.mobile, loginDto.password)
+
+     
+
+       const login= await this.authService.login(loginDto.mobile, loginDto.password,res)
 
        res.status(HttpStatus.OK).json({
             status: HttpStatus.OK,

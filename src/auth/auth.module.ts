@@ -6,6 +6,7 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth-guard';
 
 
 
@@ -13,16 +14,26 @@ import { AuthService } from './auth.service';
     imports: [
         UsersModule, // Import UsersModule to access UsersService
         PassportModule, // Initialize Passport for authentication
+      
         JwtModule.registerAsync({
+
+
             imports: [ConfigModule], // Import ConfigModule to access ConfigService
             inject: [ConfigService], // Inject ConfigService
-            useFactory: async (configService: ConfigService) => ({
-                secret: configService.get<string>('JWT_SECRET_KEY'), // Retrieve secret key from environment
-                signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION') }, // Set token expiration
-            }),
+
+            useFactory: async (configService: ConfigService) => {
+                const secret = configService.get<string>('JWT_SECRET_KEY');
+                return {
+                  secret,
+                  signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION') },
+                };
+              },
         }),
+        
+        
     ],
     controllers: [AuthController], // Register AuthController
-    providers: [JwtStrategy,AuthService], // Register JwtStrategy as a provider
+    providers: [JwtStrategy,AuthService,JwtAuthGuard], // Register JwtStrategy as a provider
+    exports:[AuthService,JwtModule]
 })
 export class AuthModule {}
